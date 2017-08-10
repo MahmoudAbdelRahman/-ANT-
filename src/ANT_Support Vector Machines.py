@@ -20,15 +20,29 @@ The disadvantages of support vector machines include:
     - SVMs do not directly provide probability estimates, these are calculated using an expensive five-fold cross-validation. 
     
 The support vector machines in scikit-learn support both dense (numpy.ndarray and convertible to that by numpy.asarray) and sparse (any scipy.sparse) sample vectors as input. However, to use an SVM to make predictions for sparse data, it must have been fit on such data. For optimal performance, use C-ordered numpy.ndarray (dense) or scipy.sparse.csr_matrix (sparse) with dtype=float64.
-
-[\desc]
+[/desc]
 
 ARGUMENTS:  
-    _data = data
-    _target = target
-    _features = features
-    _predict = predict
-    _algorithm = Support Vector Machines Algorithm\nint value, default(1) \nOptions: \n1->Support Vector Classifier SVC\n2->Linear Support Vector Classifier LinSVC\n3->Nu Support Vector Classifier NuSVC\n4->Support Vector Regression SVR\n5->Linear Support Vector Regression LinSVR\n6->Nu Support Vector Regression NuSVR\n7->One Class Support Vector Machines\n
+----------
+    <inp> _data : 
+        data </inp>
+    <inp>_target : 
+        target </inp>
+    <inp>_features : 
+        features </inp>
+    <inp>_predict : 
+        predict </inp>
+    <inp>_algorithm : [optional] - [int] - [1]
+        Support Vector Machines Algorithm
+            Options: 
+                1->Support Vector Classifier SVC
+                2->Linear Support Vector Classifier LinSVC
+                3->Nu Support Vector Classifier NuSVC
+                4->Support Vector Regression SVR
+                5->Linear Support Vector Regression LinSVR
+                6->Nu Support Vector Regression NuSVR
+                7->One Class Support Vector Machines
+    </inp>
 
 
 RETURN: 
@@ -44,60 +58,72 @@ import numpy as np
 _data = np.array(_data)
 _target = np.array(_target)
 
-if(_algorithm == None):
-    _algorithm =1 
 
-if _algorithm == 1:
-    from sklearn.svm import SVC
+def main( _data, _target, _features, _algorithm = 1):
+    if(_algorithm == None):
+        _algorithm =1 
     
-    model = SVC()
-    model.fit(_data,_target)
-    log_ = "Support Vector Classification SVC"
-    
-elif _algorithm ==2:
-    from sklearn.svm import LinearSVC
-    
-    model = LinearSVC()
-    model.fit(_data,_target)
-    log_ = "Linear Support Vector Classification LinearSVC"
-    
-elif _algorithm == 3:
-    from sklearn.svm import NuSVC
-    model = NuSVC()
-    model.fit(_data,_target)
-    log_ = "Nu Support Vector Classification NuSVC"
-elif _algorithm == 4:
-    from sklearn.svm import SVR
-    
-    model = SVR()
-    model.fit(_data,_target)
-    log_ = "Support Vector Regression SVR"
-    
-elif _algorithm ==5:
-    from sklearn.svm import LinearSVR
-    
-    model = LinearSVR()
-    model.fit(_data,_target)
-    log_ = "Linear Support Vector Regression LinearSVR"
-   
-elif _algorithm == 6:
-    from sklearn.svm import NuSVR
-    model = NuSVR()
-    model.fit(_data,_target)
-    log_ = "Nu Support Vector Regression NuSVR"
+    model = None
+    if _algorithm == 1:
+        from sklearn.svm import SVC
+        
+        model = SVC()
+        model.fit(_data,_target)
+        log_ = "Support Vector Classification SVC"
+        
+    elif _algorithm ==2:
+        from sklearn.svm import LinearSVC
+        
+        model = LinearSVC()
+        model.fit(_data,_target)
+        log_ = "Linear Support Vector Classification LinearSVC"
+        
+    elif _algorithm == 3:
+        from sklearn.svm import NuSVC
+        model = NuSVC()
+        model.fit(_data,_target)
+        log_ = "Nu Support Vector Classification NuSVC"
+    elif _algorithm == 4:
+        from sklearn.svm import SVR
+        
+        model = SVR()
+        model.fit(_data,_target)
+        log_ = "Support Vector Regression SVR"
+        
+    elif _algorithm ==5:
+        from sklearn.svm import LinearSVR
+        
+        model = LinearSVR()
+        model.fit(_data,_target)
+        log_ = "Linear Support Vector Regression LinearSVR"
+       
+    elif _algorithm == 6:
+        from sklearn.svm import NuSVR
+        model = NuSVR()
+        model.fit(_data,_target)
+        log_ = "Nu Support Vector Regression NuSVR"
 
-elif _algorithm == 7:
-    from sklearn.svm import OneClassSVM
-    
-    model = OneClassSVM()
-    model.fit(_data,_target)
-    log_ = "One Class Support Vector Machines"
+    elif _algorithm == 7:
+        from sklearn.svm import OneClassSVM
+        
+        model = OneClassSVM()
+        model.fit(_data,_target)
+        log_ = "One Class Support Vector Machines"
 
 
-if(_features != None):
-    output_ = _features[model.predict(_predict)]
+    if(_features != None):
+        if(_algorithm ==1 or _algorithm ==2 or _algorithm ==3):
+            output_ = _features[model.predict(_predict)]
+        else:
+            output_ = str(model.predict(_predict)).replace("[", "").replace("]", "")
+    else:
+        output_ = str(model.predict(_predict)).replace("[", "").replace("]", "")
+
+
+    score_ = model.score(_data, _target)
+    return [log_, output_, score_]
+
+if(_data != None and _target!= None and _predict!=None):
+    log_, output_, score_ = main( _data, _target, _features, _algorithm)
 else:
-    output_ = model.predict(_predict)
-
-
-score_ = model.score(_data, _target)
+    print "Please Complete all the required data"
