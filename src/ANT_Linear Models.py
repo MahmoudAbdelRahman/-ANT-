@@ -80,7 +80,7 @@ RETURN:
 
 
 import numpy as np
-
+import pickle
 
 _data = np.array(_data)
 _target = np.array(_target)
@@ -103,9 +103,21 @@ def main( _data, _target, _features, _predict, _algorithm = 12):
              + "log = "+ allModels[_algorithm]+".__doc__")
         
         exec("model = "+allModels[_algorithm]+"()")
-        model.fit(_data, _target)
-        prediction = model.predict(_predict)
-        score = model.score(_data, _target)
+        try:
+            model.fit(_data, _target)
+            prediction = model.predict(_predict)
+            score = model.score(_data, _target)
+        except:
+            f1 = open(_data, 'r')
+            f2 = open(_target, 'r')
+            data1 = f1.read()
+            target1 = f2.read()
+            f1.close()
+            f2.close()
+            model.fit(pickle.loads(data1), pickle.loads(target1))
+            prediction = model.predict(_predict)
+            score = model.score(pickle.loads(data1),pickle.loads(target1))
+            
     except Exception as e:
         print str(e)
     
