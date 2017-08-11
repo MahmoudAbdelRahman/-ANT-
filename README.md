@@ -49,3 +49,11 @@ image source : [scikit-learn website](http://scikit-learn.org/stable/auto_exampl
                 37. logistic_regression_path ---- Compute a Logistic Regression model for a list of regularization parameters.
                 38. orthogonal_mp ---- Orthogonal Matching Pursuit (OMP)
                 39. orthogonal_mp_gram ---- Gram Orthogonal Matching Pursuit (OMP)
+## 2. Support Vector Machines
+				        1.Support Vector Classifier SVC
+                2.Linear Support Vector Classifier LinSVC
+                3.Nu Support Vector Classifier NuSVC
+                4.Support Vector Regression SVR
+                5.Linear Support Vector Regression LinSVR
+                6.Nu Support Vector Regression NuSVR
+                7.One Class Support Vector Machines
