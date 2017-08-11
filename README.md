@@ -61,3 +61,10 @@ image source : [scikit-learn website](http://scikit-learn.org/stable/auto_exampl
                 5.Linear Support Vector Regression LinSVR
                 6.Nu Support Vector Regression NuSVR
                 7.One Class Support Vector Machines
+## 3. Decision Trees
+![image](https://user-images.githubusercontent.com/6969514/29233405-e90e07bc-7ef0-11e7-8a97-2680267abc12.png)
+
+                1. DecisionTreeClassifier ------ A decision tree classifier.
+                2. DecisionTreeRegressor  ------  A decision tree regressor.
+                3. ExtraTreeClassifier ------   An extremely randomized tree classifier.
+                4. ExtraTreeRegressor ------    An extremely randomized tree regressor.
