@@ -10,6 +10,8 @@ image source : [scikit-learn website](http://scikit-learn.org/stable/auto_exampl
 
 # Supports:
 ## 1. Linear Models: 
+![image](https://user-images.githubusercontent.com/6969514/29232437-e488b232-7eeb-11e7-9c93-98e4a1b2ea71.png)
+
                 1. ARDRegression ---- Bayesian ARD regression.
                 2. BayesianRidge ---- Bayesian ridge regression
                 3. ElasticNet ---- Linear regression with combined L1 and L2 priors as regularizer.
@@ -50,6 +52,8 @@ image source : [scikit-learn website](http://scikit-learn.org/stable/auto_exampl
                 38. orthogonal_mp ---- Orthogonal Matching Pursuit (OMP)
                 39. orthogonal_mp_gram ---- Gram Orthogonal Matching Pursuit (OMP)
 ## 2. Support Vector Machines
+![image](https://user-images.githubusercontent.com/6969514/29232457-f94e15fe-7eeb-11e7-90c0-6129a6969e99.png)
+
 		1.Support Vector Classifier SVC
                 2.Linear Support Vector Classifier LinSVC
                 3.Nu Support Vector Classifier NuSVC
