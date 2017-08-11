@@ -43,6 +43,10 @@ ARGUMENTS:
                 6->Nu Support Vector Regression NuSVR
                 7->One Class Support Vector Machines
     </inp>
+    <inp>_parameters_ : [optional]
+        Parameters of the Support Vector Machine Model, such as :
+        C, kernel, degree, gamma, coef0, probability, shrinking, tol, chach_size, class_weight, verbose, max_iter
+        ,decision_function_shape and random_state</inp>
 
 
 RETURN: 
@@ -53,75 +57,52 @@ RETURN:
 
 
 import numpy as np
-
+import pickle
 
 _data = np.array(_data)
 _target = np.array(_target)
 
 
 def main( _data, _target, _features, _algorithm = 1):
+    ''' this is the main function ''' 
+    
+    allModels ={1:"SVC",        2:"LinearSVC",          3:"NuSVC",
+                4:"SVR",        5:"LinearSVR",          6:"NuSVR",
+                7:"OneClassSVM"}
+
     if(_algorithm == None):
         _algorithm =1 
     
-    model = None
-    if _algorithm == 1:
-        from sklearn.svm import SVC
+    try:
+        exec("from sklearn.svm import "+ allModels[_algorithm]+"\n"
+             + "log = "+ allModels[_algorithm]+".__doc__")
         
-        model = SVC()
-        model.fit(_data,_target)
-        log_ = "Support Vector Classification SVC"
-        
-    elif _algorithm ==2:
-        from sklearn.svm import LinearSVC
-        
-        model = LinearSVC()
-        model.fit(_data,_target)
-        log_ = "Linear Support Vector Classification LinearSVC"
-        
-    elif _algorithm == 3:
-        from sklearn.svm import NuSVC
-        model = NuSVC()
-        model.fit(_data,_target)
-        log_ = "Nu Support Vector Classification NuSVC"
-    elif _algorithm == 4:
-        from sklearn.svm import SVR
-        
-        model = SVR()
-        model.fit(_data,_target)
-        log_ = "Support Vector Regression SVR"
-        
-    elif _algorithm ==5:
-        from sklearn.svm import LinearSVR
-        
-        model = LinearSVR()
-        model.fit(_data,_target)
-        log_ = "Linear Support Vector Regression LinearSVR"
-       
-    elif _algorithm == 6:
-        from sklearn.svm import NuSVR
-        model = NuSVR()
-        model.fit(_data,_target)
-        log_ = "Nu Support Vector Regression NuSVR"
-
-    elif _algorithm == 7:
-        from sklearn.svm import OneClassSVM
-        
-        model = OneClassSVM()
-        model.fit(_data,_target)
-        log_ = "One Class Support Vector Machines"
-
-
-    if(_features != None):
-        if(_algorithm ==1 or _algorithm ==2 or _algorithm ==3):
-            output_ = _features[model.predict(_predict)]
-        else:
-            output_ = str(model.predict(_predict)).replace("[", "").replace("]", "")
-    else:
-        output_ = str(model.predict(_predict)).replace("[", "").replace("]", "")
-
-
-    score_ = model.score(_data, _target)
-    return [log_, output_, score_]
+        exec("model = "+allModels[_algorithm]+"()")
+        try:
+            model.fit(_data, _target)
+            prediction = model.predict(_predict)
+            try:
+                score = model.score(_data, _target)
+            except:
+                score = "Not defined"
+        except:
+            f1 = open(_data, 'r')
+            f2 = open(_target, 'r')
+            data1 = f1.read()
+            target1 = f2.read()
+            f1.close()
+            f2.close()
+            model.fit(pickle.loads(data1), pickle.loads(target1))
+            prediction = model.predict(_predict)
+            try:
+                score = model.score(pickle.loads(data1),pickle.loads(target1))
+            except:
+                score = "Not defined"
+            
+    except Exception as e:
+        print str(e)
+    
+    return [log, prediction, score]
 
 if(_data != None and _target!= None and _predict!=None):
     log_, output_, score_ = main( _data, _target, _features, _algorithm)
