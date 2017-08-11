@@ -68,3 +68,19 @@ image source : [scikit-learn website](http://scikit-learn.org/stable/auto_exampl
                 2. DecisionTreeRegressor  ------  A decision tree regressor.
                 3. ExtraTreeClassifier ------   An extremely randomized tree classifier.
                 4. ExtraTreeRegressor ------    An extremely randomized tree regressor.
+## 4. Nearest Neighbors
+![image](https://user-images.githubusercontent.com/6969514/29234176-7d74135c-7ef5-11e7-946d-25f6680f4aca.png)
+
+                1. (Not Supported Yet) NearestNeighbors -------- Unsupervised learner for implementing neighbor searches. 
+                2. KNeighborsClassifier --------  Classifier implementing the k-nearest neighbors vote.
+                3. (Not Supported Yet) RadiusNeighborsClassifier --------  Classifier implementing a vote among neighbors within a given radius
+                4. KNeighborsRegressor --------   Regression based on k-nearest neighbors.
+                5. RadiusNeighborsRegressor --------   Regression based on neighbors within a fixed radius.
+                6. NearestCentroid --------   Nearest centroid classifier.
+                          (IN PROGRESS ... )
+                //7. BallTree -------- BallTree for fast generalized N-point problems
+                //8. KDTree  -------- KDTree for fast generalized N-point problems
+                //9. LSHForest --------   Performs approximate nearest neighbor search using LSH forest.
+                //11. KernelDensity--------    Kernel Density Estimation
+                //12. kneighbors_graph --------  Computes the (weighted) graph of k-Neighbors for points in X
+                //13. radius_neighbors_graph -------- Computes the (weighted) graph of Neighbors for points in X
