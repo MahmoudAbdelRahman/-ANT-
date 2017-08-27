@@ -14,7 +14,7 @@ provides functionality for unsupervised and supervised neighbors-based learning 
 The principle behind nearest neighbor methods is to find a predefined number of training samples closest in distance to the new point, and predict the label from these.
 The number of samples can be a user-defined constant (k-nearest neighbor learning), or vary based on the local density of points (radius-based neighbor learning).
 The distance can, in general, be any metric measure: standard Euclidean distance is the most common choice. Neighbors-based methods are known as non-generalizing machine
-learning methods, since they simply “remember” all of its training data (possibly transformed into a fast indexing structure such as a Ball Tree or KD Tree.).
+learning methods, since they simply  all of its training data (possibly transformed into a fast indexing structure such as a Ball Tree or KD Tree.).
 
 Despite its simplicity, nearest neighbors has been successful in a large number of classification and regression problems, including handwritten digits or satellite image scenes.
 Being a non-parametric method, it is often successful in classification situations where the decision boundary is very irregular.
@@ -22,24 +22,29 @@ The classes in sklearn.neighbors can handle either Numpy arrays or scipy.sparse 
 For sparse matrices, arbitrary Minkowski metrics are supported for searches.
 [/desc]
 
-ARGUMENTS:  
+
+[message]VER 0.0.1
+AUG_16_2017
+[/message]
+
+ARGUMENTS:
 ----------
-    <inp> _data : 
+    <inp> _data :
         data </inp>
-    <inp>_target : 
+    <inp>_target :
         target </inp>
-    <inp>_features : 
+    <inp>_features :
         features </inp>
-    <inp>_predict : 
+    <inp>_predict :
         predict </inp>
     <inp>_algorithm : [optional] - [int] - [2]
-        
-        Decision Tree algorithm 
+
+        Decision Tree algorithm
         Default is 2 i.e. KNeighborsClassifier
 
-            Options: 
+            Options:
 
-                1. (Not Supported Yet) NearestNeighbors -------- Unsupervised learner for implementing neighbor searches. 
+                1. (Not Supported Yet) NearestNeighbors -------- Unsupervised learner for implementing neighbor searches.
                 2. KNeighborsClassifier --------  Classifier implementing the k-nearest neighbors vote.
                 3. (Not Supported Yet) RadiusNeighborsClassifier --------  Classifier implementing a vote among neighbors within a given radius
                 4. KNeighborsRegressor --------   Regression based on k-nearest neighbors.
@@ -58,12 +63,11 @@ ARGUMENTS:
         Parameters of the Neighbors - if omitted, it will be set to default values</inp>
 
 
-RETURN: 
+RETURN:
     log_ = output log
     output_ = predict Data
     score_ score value
 """
-
 
 import numpy as np
 import pickle
@@ -72,23 +76,34 @@ _data = np.array(_data)
 _target = np.array(_target)
 
 
-def main( _data, _target, _features, _predict, _algorithm = 2):
-    ''' This is the main function '''
-    allModels = {   1:"NearestNeighbors",
-                    2:"KNeighborsClassifier",
-                    3:"RadiusNeighborsClassifier",
-                    4:"KNeighborsRegressor",
-                    5:"RadiusNeighborsRegressor",
-                    6:"NearestCentroid"
-                }
+def main(_data, _target, _features, _predict, _algorithm=2):
+    """
+    Main function
+    :param _data: input data as pickle.dumps file
+    :param _target: input targets as pickle.dumps file
+    :param _features: list of features' strings
+    :param _predict: list of predict data
+    :param _algorithm:
+    :return:
+    """
+    allModels = {1: "NearestNeighbors",
+                 2: "KNeighborsClassifier",
+                 3: "RadiusNeighborsClassifier",
+                 4: "KNeighborsRegressor",
+                 5: "RadiusNeighborsRegressor",
+                 6: "NearestCentroid"
+                 }
     try:
-        exec("from sklearn.neighbors import "+ allModels[_algorithm]+"\n"
-             + "log = "+ allModels[_algorithm]+".__doc__")
-        
-        exec("model = "+allModels[_algorithm]+"()")
+        exec ("from sklearn.neighbors import " + allModels[_algorithm] + "\n"
+              + "log = " + allModels[_algorithm] + ".__doc__")
+
+        exec ("model = " + allModels[_algorithm] + "()")
         try:
             model.fit(_data, _target)
-            prediction = model.predict(_predict)
+            if _features is not None:
+                prediction = _features[model.predict(_predict)]
+            else:
+                prediction = model.predict(_predict)
             score = model.score(_data, _target)
         except:
             f1 = open(_data, 'r')
@@ -98,22 +113,27 @@ def main( _data, _target, _features, _predict, _algorithm = 2):
             f1.close()
             f2.close()
             model.fit(pickle.loads(data1), pickle.loads(target1))
-            prediction = model.predict(_predict)
-            score = model.score(pickle.loads(data1),pickle.loads(target1))
-            
+            if _features is not None:
+                prediction = _features[model.predict(_predict)]
+            else:
+                prediction = model.predict(_predict)
+            score = model.score(pickle.loads(data1), pickle.loads(target1))
+
     except Exception as e:
         print str(e)
-    
+
     return [log, prediction, score]
 
 
-if(_data != None and _target!= None and _predict!=None):
-    if (_algorithm == None or _algorithm > 6 or _algorithm <1):
+if _data is not None and _target is not None and _predict is not None:
+    if _algorithm == None or _algorithm > 6 or _algorithm < 1:
         _algorithm = 2
 
-    if(_algorithm == 1 or _algorithm == 3):
+    if _algorithm == 1 or _algorithm == 3:
         log_ = "Not supported yet .. stay tuned.."
     else:
-        log_, output_, score_ = main( _data, _target, _features,_predict, _algorithm)
+        log_, output_, score_ = main(_data, _target, _features, _predict, _algorithm)
 else:
     print "Please Complete all the required data"
+
+
